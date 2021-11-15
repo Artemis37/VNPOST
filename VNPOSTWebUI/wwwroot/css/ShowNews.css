@@ -1,0 +1,149 @@
+﻿
+
+
+/*Left*/
+
+#Groups-Label {
+    width: 100%;
+    background-color: #FFFAD5;
+}
+
+#Groups-Label h2 {
+    color: #FCB71E;
+    font-size: 16px;
+    border-bottom: 1px solid #EBC27D;
+    padding: 5px 0 5px 0;
+    width: 100%;
+    font-weight: bold;
+    margin: 3px 0 2px 0;
+}
+
+#Outer-New-List {
+    margin: 20px 0 20px 0;
+    padding: 0 50px 0 50px;
+}
+
+#Groups-Title {
+    width: 100%;
+    border-top: 1px solid #EBC27D;
+}
+
+#Groups-Title a {
+    text-decoration: none;
+    color: inherit;
+    padding: 10px 0 10px 19px;
+    border-bottom: 1px dotted #EBC27D;
+    font-size: 14px;
+    width: 100%;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+}
+
+#Groups-Title a:hover {
+    color: #FCB71E;
+}
+
+.Dependent-Group {
+    padding-left: 32px !important;
+}
+
+.hotline-box {
+    background-color: #ff9900;
+    color: #3e4d5c;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: center;
+    width: 100%;
+}
+
+.hotline-box label, .hotline-box h2 {
+    color: #ffffff;
+    text-align: center;
+}
+
+
+/*Right*/
+#News-Body {
+    color: #3e4d5c;
+}
+
+.Horizontal-Group{
+    width: 100%;
+    background-color: #EAF6FF;
+    border-top: 1px solid #8198C3;
+    border-bottom: 1px solid #D0E4F1;
+    margin: 16px 0 0 0;
+    flex-wrap: wrap;
+}
+
+.Horizontal-Group ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: start;
+    align-items: center;
+    margin: 3px 0 3px 0;
+}
+
+.Horizontal-Group ul li {
+    margin-right: 16px;
+    font-size: 14px;  
+}
+
+.Horizontal-Group ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.news-block-body {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+}
+
+.news-block-body > div {
+    padding: 0 5px 0 5px !important;
+}
+
+.news-block-body img {
+    width: 100%;
+    height: auto;
+}
+
+.news-block-body > div:not(:last-child) {
+    border-right: 1px solid #dcdcdc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.first-third a {
+    text-decoration: none;
+    color: #333333;
+    font-weight: 500;
+}
+
+.first-third a:hover {
+    color: #FCB71E;
+}
+
+.second-third a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.second-third a:hover {
+    color: #FCB71E;
+}
+
+.third-third a {
+    text-decoration: none;
+    color: #4E4B35 !important;
+    font-weight: 500;
+}
+
+.third-third a:hover {
+    color: #FCB71E;
+}

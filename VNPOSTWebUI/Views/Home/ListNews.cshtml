@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Details";
+}
+
+@model IEnumerable<VNPOSTWebUILibrary.Model.News>
+@using VNPOSTWebUILibrary.BussinessLogic
+
+@section myCss {
+    <link href="~/css/ShowNews.css" rel="stylesheet" />
+    <link href="~/css/ListNews.css" rel="stylesheet" />
+}
+
+@{ 
+    NewsProcessor newsProcessor = new NewsProcessor();
+    var majorGroups = await newsProcessor.LoadMajorNewsGroupAsync();
+}
+
+<div id="cover" class="container-fluid">
+    <partial name="_MenuNewsGroup" model="majorGroups"/>
+    <div id="news-list-cover" class="col-9 d-flex flex-wrap justify-content-center align-items-center">
+        <div id="news-list-header">
+            <h1>Tin tức</h1>
+            <img src="~/Images/News/product-border.png" alt="--------------------" />
+        </div>
+        <div id="news-list">
+            @{int i = 0; }
+            @foreach (var item in Model)
+            {
+                <div class="news-item col-6">
+                    <div class="news-title">
+                        @if (i < 3) { <img src="~/Images/News/new-icon.png" /> }
+                        <a href="@Url.Action("DetailNews","Home", new { id = item.Id })">@item.Title</a>
+                    </div>
+                    <div class="news-body">
+                        <a href="@Url.Action("DetailNews","Home", new { id = item.Id })"><img src="@item.LabelImage" alt="Error" /></a>
+                        <div class="news-summary">
+                            <label>@item.CreatedDate.ToString("dd/MM/yyy HH:mm")</label>
+                            <p>@item.Summary</p>
+                        </div>
+                    </div>
+                </div>
+                i++;
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+﻿@model LoginModel
+
+@section myCss {
+    <link href="~/css/Login.css" rel="stylesheet" />
+}
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div id="login-outer">
+    <div id="login-form">
+        <form asp-action="login">
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control"/>
+                @if(ViewBag.Error == null)
+                {
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                }
+                else
+                {
+                    <span asp-validation-for="Username" class="text-danger">@ViewBag.Error</span>
+                }
+            </div>
+            <div id="password-form" class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <button asp-controller="Home" asp-action="Index" class="btn">Cancel</button>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,60 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityUser
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TwoFactorEnabled)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.EmailConfirmed)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.PhoneNumberConfirmed)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.TwoFactorEnabled)
+            </td>
+        </tr>
+    </tbody>
+</table>
+<a href="@Url.Action("ListAccount")" class="btn btn-primary">Back to list</a>
+@if (Model.EmailConfirmed) { 
+    <a href="@Url.Action("Disable", new { id = Model.Id })" class="btn btn-danger">Disable</a>
+}else { 
+    <a href="@Url.Action("Enable", new { id = Model.Id })" class="btn btn-primary">Enable</a>
+}

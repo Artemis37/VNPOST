@@ -1,0 +1,59 @@
+﻿@model VNPOSTWebUILibrary.Model.News
+@using VNPOSTWebUILibrary.BussinessLogic
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+
+@{
+    ViewBag.Title = "Detail";
+    NewsProcessor newsProcessor = new NewsProcessor();
+    var majorGroup = await newsProcessor.LoadMajorNewsGroupAsync();
+    var relatedNewsList = await newsProcessor.LoadNewsWithGroupIdAsync(Model.GroupId, 10);
+}
+
+@section myCss {
+    <link href="~/css/DetailNews.css" rel="stylesheet" />
+    <link href="~/css/ShowNews.css" rel="stylesheet" />
+}
+
+<div id="Outer-New-Detail">
+    <div id="News-Detail">
+        <partial name="_MenuNewsGroup" model="majorGroup" />
+
+        <div id="News-Body" class="col-9">
+            <div id="Title">
+                <h1>@Model.Title</h1>
+                @if (signInManager.IsSignedIn(User)) { 
+                    <a href="@Url.Action("EditNews","Manage", new { id = Model.Id })" class="btn btn-secondary">
+                        <i class="fas fa-edit" style="color: #ffffff;"></i> Edit
+                    </a>
+                    <a href="@Url.Action("DeleteNews","Manage", new { id = Model.Id })" class="btn btn-warning">
+                        <i class="fas fa-trash" style="color: #4f4521; "></i> Delete
+                    </a>
+                }
+            </div>
+            <div id="Social">
+                <label>@Model.CreatedDate</label>
+                <div id="sharing-icon">
+                    <span id="sharing-icon-fb"></span>
+                    <span id="sharing-icon-tw"></span>
+                    <span id="sharing-icon-linkedIn"></span>
+                </div>
+            </div>
+            @Html.Raw(Model.Content);<br>
+            <label id="Views"><i class="far fa-eye"></i> Lượt xem @Model.Views</label>
+            <div id="Related-News">
+                <h2>Các tin khác</h2>
+                <span id="Separator"></span>
+                <ul>
+                    @foreach (var item in relatedNewsList)
+                    {
+                        if (item.Id == Model.Id) continue;
+                        <li>
+                            <a href="@Url.Action("DetailNews","Home", new { id = item.Id })"><i class="fas fa-angle-double-right" style="color: #fcb71e;"></i> @item.Title</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

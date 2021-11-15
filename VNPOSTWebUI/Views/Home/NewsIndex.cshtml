@@ -1,0 +1,71 @@
+﻿@model VNPOSTWebUI.Models.AllGroups
+@using VNPOSTWebUILibrary.BussinessLogic
+
+@{
+    ViewBag.Title = "List News";
+}
+
+@section myCss {
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <link href="~/css/ShowNews.css" rel="stylesheet" />
+}
+
+@{
+    var majorGroups = Model.majorNewsGroup;
+    var groups = Model.newsGroup;
+}
+
+<div id="Outer-New-List" class="container-fluid d-flex justify-content-center align-items-start">
+    <!--Left Body-->
+    <partial name="_MenuNewsGroup" model="majorGroups"/>
+    <!--Right Body-->
+    @{ <!--Read 5 lastest and oldest news with each major Group and sequentially add to a list-->
+        <!--element 0 1 2 3 4 & 5 is lastest and oldest news of major 1, element 6 7 8 9 10 & 11 is major 2, et cetera...-->
+        NewsProcessor _newsProcessor = new NewsProcessor();
+        var InitialNewsBlockTask = await _newsProcessor.LoadLastestAndOldestNewsOfEachMajorAsync();
+        var InitialNewsBlock = InitialNewsBlockTask.ToList();
+    }
+    <div id="News-Body" class="d-flex flex-column justify-content-center align-items-center col-9">
+        @foreach (var block in InitialNewsBlock)//each loop is a block of major news group
+        {
+            <div class="Horizontal-Group d-flex justify-content-start align-items-center">
+                <ul>
+                    <!--block == 6 news of each major group-->
+                    <li style="color: #485986; font-weight: bold;"><a href="@Url.Action("LoadNewsWithMajorGroup", "Home", new { id = block.MajorGroupId })">@block.MajorGroupName</a></li>
+                    @{ var dependents = groups.Where(x => x.majorGroupId == block.MajorGroupId);}
+                    @foreach (var dependent in dependents)
+                    {<!--loop through minor news group-->
+                        <li style="color: #4E4B35;"><a href="@Url.Action("LoadNewsWithGroup", "Home", new { id = dependent.Id })">@dependent.Name</a></li>
+                    }
+                </ul>
+            </div>
+            <!--News block body-->
+            <div class="news-block-body">
+                @{
+                    var tempList = block.newsBlock.ToList(); //list of news of each Major Group
+                }
+                @if (tempList.Count() == 0) break;
+                <div class="first-third col-5"> <!--display lastest news-->
+                    <a href="@Url.Action("DetailNews", "Home", new { id = tempList[0].Id })">@tempList[0].Title</a>
+                    <img src="@tempList[0].LabelImage" alt="Error loading image" />
+                    <p>@tempList[0].Summary</p>
+                </div>
+                <div class="second-third col-4"> <!--first 4 recently added news except for first news-->
+                    @if(tempList.Count > 2)
+                    {
+                        for (int i = 1; i < tempList.Count-1; i++)
+                        {
+                            <a href="@Url.Action("DetailNews","Home", new { id = tempList[i].Id })">@tempList[i].Title</a>
+                        }
+                    }
+                </div>
+                <div class="third-third col-3"> <!--display oldest news-->
+                    <img src="@tempList[tempList.Count-1].LabelImage" alt="Error loading image" />
+                    <a href="@Url.Action("DetailNews","Home", new { id = tempList[tempList.Count-1].Id })">@tempList[tempList.Count-1].Title</a>
+                </div>
+            </div>
+         }
+    </div>
+</div>

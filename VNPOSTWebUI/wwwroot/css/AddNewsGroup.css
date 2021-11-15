@@ -1,0 +1,38 @@
+﻿body {
+}
+
+#outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0;
+}
+
+#outer > div {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin: 0 50px;
+}
+
+#add-news-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#add-news-group button {
+    margin-top: 5px;
+}
+
+#separator {
+    width: 214px;
+    height: 1px;
+    background-color: #2d3436;
+    margin: 10px 0;
+}
+
+#RelatedMajorGroup {
+    margin-bottom: 15px;
+}

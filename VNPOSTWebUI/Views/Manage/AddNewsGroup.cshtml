@@ -1,0 +1,41 @@
+﻿@using VNPOSTWebUILibrary.BussinessLogic
+
+@{
+    ViewBag.Title = "Add News Group";
+    NewsProcessor newsProcessor = new NewsProcessor();
+    var majorGroup = await newsProcessor.LoadMajorNewsGroupAsync();
+}
+
+@section myCss {
+    <link href="~/css/ShowNews.css" rel="stylesheet" />
+    <link href="~/css/AddNewsGroup.css" rel="stylesheet" />
+}
+
+<div id="outer">
+    <div class="col-10">
+        <partial name="_MenuNewsGroup" model="majorGroup" />
+
+        <div id="add-news-group" class="col-9">
+            <form asp-action="AddNewsGroup" asp-controller="Manage">
+                <div class="form-group">
+                    <label for="MajorGroup">Major Group Name</label>
+                    <input id="MajorGroup" type="text" name="MajorGroup" class="form-control"/>
+                    <button type="submit" class="btn btn-primary">Add Major Group</button>
+                </div>
+                <label id="separator"></label>
+                <div class="form-group">
+                    <label for="RelatedMajorGroup">Major group of below group</label>
+                    <select class="form-control" id="RelatedMajorGroup" name="RelatedMajorGroup">
+                        @foreach (var item in majorGroup)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                    <label for="Group">Group Name</label>
+                    <input id="Group" type="text" name="Group" class="form-control"/>
+                    <button type="submit" class="btn btn-primary">Add Group</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+﻿@model VNPOSTWebUI.Models.News
+@using VNPOSTWebUILibrary.BussinessLogic
+@using VNPOSTWebUILibrary.Model
+
+@{
+    ViewData["Title"] = "Add News";
+    TempData["id"] = ViewBag.Id;
+    string action = "";
+    if (ViewBag.Id == null)
+    {
+        action = "AddNews";
+    }else {
+        action = "EditNews";
+    }
+}
+
+@section AJAX{
+    @*<script src="~/lib/plugins/ckeditor/ckeditor.js"></script>
+      <script src="~/lib/plugins/ckfinder/ckfinder.js"></script>*@
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/lodash.js"></script>
+    <script src="~/js/AJAX.js"></script>
+}
+
+@section myCss {
+    <link href="~/css/AddNews.css" rel="stylesheet" />
+}
+
+@{ 
+    var thisMajorGroup = new MajorNewsGroup();
+    var thisGroup = new NewsGroup();
+    if (Model.Title != null)
+    {
+        NewsProcessor newsProcessor = new NewsProcessor();
+        var majorGroups = await newsProcessor.LoadMajorNewsGroupAsync();
+        thisMajorGroup = majorGroups.FirstOrDefault<MajorNewsGroup>(x => x.Id == Int32.Parse(Model.MajorGroupId));
+        var groups = await newsProcessor.LoadNewsGroupAsync();
+        thisGroup = new NewsGroup() { Name = "" };
+        if (Model.GroupId != null)
+        {
+            thisGroup = groups.FirstOrDefault<NewsGroup>(x => x.Id == Int32.Parse(Model.GroupId));
+        }
+    }
+}
+
+<div id="outer">
+    <h1>Add News</h1>
+
+    <h4>News</h4>
+    @if (ViewBag.Result != null)
+    {
+        <p>@ViewBag.Result</p>
+    }
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="@action" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    @if (Model.Title == null)
+                    {
+                        <input asp-for="Title" class="form-control" value=""/>
+                    }
+                    else
+                    {
+                        <input asp-for="Title" class="form-control" value="@Model.Title" />
+                    }
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Add-Image">Add Label Image:</label>
+                    <input id="Add-Image" asp-for="LabelImage"/>
+                </div>
+                <div id="major-group-form" class="form-group">
+                    <div class="col-8">
+                        <div id="major-group-label">
+                            <label asp-for="MajorGroupId" class="control-label"></label>
+                            @if(Model.Title != null) { 
+                                <label id="groups">@thisMajorGroup.Name @thisGroup.Name</label>
+                            }
+                        </div>
+                        <select id="loadNewsGroup" asp-for="MajorGroupId" class="form-control">
+                            <optgroup label="Choose one">
+                                @foreach (var item in Model.MajorGroups)
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                    //load minor group on each click on major group
+                                }
+                            </optgroup>
+                        </select>
+                    </div>
+                    <a class="btn btn-primary col-4" href="@Url.Action("AddNewsGroup","Manage")">Add News Group</a>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GroupId" class="control-label"></label>
+                    <select id="newsGroup" asp-for="GroupId" class="form-control"> 
+                        @**use AJAX request to call a list of groups base on majorGroup*@
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Summary" class="control-label"></label>
+                    <input asp-for="Summary" type="text" class="form-control" />
+                    <span asp-validation-for="Summary" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Content" class="control-label"></label>
+                    <textarea asp-for="Content" type="text" class="form-control"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<VNPOSTWebUILibrary.Model.MajorNewsGroup>
+@using VNPOSTWebUILibrary.BussinessLogic
+
+@{ 
+    NewsProcessor newsProcessor = new NewsProcessor();
+    var groups = await newsProcessor.LoadNewsGroupAsync();
+    var majorGroups = await newsProcessor.LoadMajorNewsGroupAsync();
+}
+
+<div class="d-flex flex-column justify-content-center align-items-center col-3">
+    <div id="Groups-Label">
+        <div class="d-flex justify-content-center align-items-start">
+            <h2>CHUYÊN MỤC</h2>
+        </div>
+        <div id="Groups-Title" class="d-flex flex-column justify-content-center align-items-start">
+            @foreach (var item in Model)
+            {
+                <a href="@Url.Action("LoadNewsWithMajorGroup","Home", new { id=item.Id })"><i class="fas fa-angle-double-right"></i> @item.Name</a>
+                //load dependent group of major group
+                var dependents = groups.Where(x => x.majorGroupId == item.Id);
+                @foreach (var dependent in dependents)
+                {
+                <a class="Dependent-Group" href="@Url.Action("LoadNewsWithGroup","Home", new { id=dependent.Id })"><i class="fas fa-angle-right"></i> @dependent.Name</a>
+                }
+            }
+        </div>
+    </div>
+    <div class="hotline-box">
+        <label>Đường dây nóng hỗ trợ</label>
+        <h2>1900 54 54 81</h2>
+    </div>
+</div>

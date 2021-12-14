@@ -1,0 +1,48 @@
+﻿body {
+}
+
+#outer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+#outer h1 {
+    font-size: 33px !important;
+}
+
+#outer form{
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+#newsRole {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    margin-right: 20px;
+}
+
+#unitRole {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    margin-left: 20px;
+}
+
+#submit-button {
+    display: flex;
+    justify-content: right;
+    margin: 0 30px 30px 0;
+    right: 0;
+}
+
+#submit-button input {
+    margin-right: 150px;
+}

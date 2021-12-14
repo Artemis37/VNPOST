@@ -11,6 +11,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\node_modules\**" />
+    <Content Remove="wwwroot\lib\node_modules\**" />
+    <EmbeddedResource Remove="wwwroot\lib\node_modules\**" />
+    <None Remove="wwwroot\lib\node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Login\test.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\lib\plugins\ckfinder\_source\CKFinder.Net.csproj" />
     <None Include="wwwroot\lib\plugins\ckfinder\_source\CKFinder.Net.sln" />
     <None Include="wwwroot\lib\plugins\ckfinder\_source\Resources\Plugins\FileEditor\FileEditor.csproj" />
@@ -47,7 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Uploads\" />
     <Folder Include="wwwroot\Images\Upload\" />
   </ItemGroup>
 

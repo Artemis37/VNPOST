@@ -1,0 +1,17 @@
+﻿body {
+}
+
+
+#outer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#inner {
+
+}
+
+#table-container a {
+    margin: 0 4px 0 4px;
+}

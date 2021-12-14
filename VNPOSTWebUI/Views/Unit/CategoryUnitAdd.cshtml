@@ -1,0 +1,103 @@
+﻿@model VNPOSTWebUILibrary.Model.CategoryUnit
+
+@section myCss {
+    <link href="~/css/Unit/CategoryUnitAdd.css" rel="stylesheet" />
+}
+
+@section myJs {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script src="~/js/Unit/CategoryUnitAdd.js"></script>
+}
+
+@{
+    ViewBag.Title = "Thêm loại đơn vị";
+    if (ViewBag.ToAction == null)
+    {
+        ViewBag.ToAction = "";
+    }
+}
+
+<div id="outer" class="container-fluid">
+    <div id="inner" class="col-3">
+        <form action="@ViewBag.ToAction" method="post">
+            <div class="form-group">
+                <label asp-for="@Model.id">Mã loại đơn vị: </label>
+                @if (Model != null && ViewBag.Action == "View")
+                {
+                    <input asp-for="@Model.id" class="form-control" readonly />
+                }
+                else
+                {
+                    @if (ViewBag.ToAction == "/Unit/CategoryEdit")
+                    {
+                        <input asp-for="@Model.id" class="form-control" readonly />
+                    }
+                    else
+                    {
+                        <input asp-for="@Model.id" class="form-control" />
+                    }
+                }
+                <span asp-validation-for="@Model.id"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.name">Tên loại đơn vị: </label>
+                @if (Model != null && ViewBag.Action == "View")
+                {
+                    <input asp-for="@Model.name" class="form-control" readonly />
+                }
+                else
+                {
+                    <input asp-for="@Model.name" class="form-control" />
+                }
+                <span asp-validation-for="@Model.name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.status">Trạng thái: </label>
+                @if (Model != null && ViewBag.Action == "View")
+                {
+                    <select asp-for="@Model.status" class="form-control" disabled>
+                        <option value="1">Có hiệu lực</option>
+                        @if (!Model.status)
+                        {
+                            <option value="0" selected="selected">Hết hiệu lực</option>
+                        }
+                        else
+                        {
+                            <option value="0">Hết hiệu lực</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    @if(ViewBag.ToAction == "/Unit/CategoryEdit") { 
+                    <select asp-for="@Model.status" class="form-control">
+                        <option value="1">Có hiệu lực</option>
+                        @if (!Model.status)
+                        {
+                            <option value="0" selected="selected">Hết hiệu lực</option>
+                        }
+                        else
+                        {
+                            <option value="0">Hết hiệu lực</option>
+                        }
+                    </select>
+                    }else { 
+                    <select asp-for="@Model.status" class="form-control">
+                        <option value="1">Có hiệu lực</option>
+                        <option value="0">Hết hiệu lực</option>
+                    </select>
+                    }
+                }
+            </div>
+            <div id="buttons" class="form-group">
+                @if (Model == null || (ViewBag != null && ViewBag.ToAction == "/Unit/CategoryEdit"))
+                {
+                    <input type="submit" class="btn btn-primary" value="Lưu" />
+                }
+                <a href="@Url.Action("ListCategoryUnit")" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>

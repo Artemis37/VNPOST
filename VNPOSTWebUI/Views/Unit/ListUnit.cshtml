@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Bảng đơn vị";
+}
+
+@section myCss {
+    <link href="~/lib/node_modules/tabulator-tables/dist/css/tabulator_semanticui.min.css" rel="stylesheet">
+    <link href="~/css/Unit/ListUnit.css" rel="stylesheet" />
+}
+
+@section myJs {
+    <script src="~/lib/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script type="text/javascript" src="~/lib/node_modules/tabulator-tables/dist/js/tabulator.js"></script>
+    <script src="~/js/Unit/ListUnit.js"></script>
+}
+
+<div id="outer" class="container-fluid">
+    <div id="inner" class="col-8">
+        <div id="table-container"></div>
+    </div>
+</div>

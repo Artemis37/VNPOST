@@ -1,0 +1,33 @@
+﻿body {
+}
+
+#major-group-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#major-group-form > div {
+    padding: 0 !important;
+}
+
+#major-group-form > a {
+    font-size: 14px;
+    margin-left: 10px;
+    transform: translateY(16px);
+}
+
+#outer {
+    margin-left: 43px;
+}
+
+#major-group-label {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+#groups {
+    margin-left: 15px;
+    color: #fcb71e;
+}

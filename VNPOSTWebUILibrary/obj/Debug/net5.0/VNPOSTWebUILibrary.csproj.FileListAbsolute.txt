@@ -2,7 +2,6 @@ C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\bin\Debug\net5.0\VNPOSTWeb
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\bin\Debug\net5.0\VNPOSTWebUILibrary.dll
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\bin\Debug\net5.0\ref\VNPOSTWebUILibrary.dll
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\bin\Debug\net5.0\VNPOSTWebUILibrary.pdb
-C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\obj\Debug\net5.0\VNPOSTWebUILibrary.csproj.AssemblyReference.cache
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\obj\Debug\net5.0\VNPOSTWebUILibrary.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\obj\Debug\net5.0\VNPOSTWebUILibrary.AssemblyInfoInputs.cache
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\obj\Debug\net5.0\VNPOSTWebUILibrary.AssemblyInfo.cs
@@ -10,3 +9,4 @@ C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\obj\Debug\net5.0\VNPOSTWeb
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\obj\Debug\net5.0\VNPOSTWebUILibrary.dll
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\obj\Debug\net5.0\ref\VNPOSTWebUILibrary.dll
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\obj\Debug\net5.0\VNPOSTWebUILibrary.pdb
+C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUILibrary\obj\Debug\net5.0\VNPOSTWebUILibrary.csproj.AssemblyReference.cache

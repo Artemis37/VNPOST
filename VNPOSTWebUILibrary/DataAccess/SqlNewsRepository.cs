@@ -35,6 +35,7 @@ namespace VNPOSTWebUILibrary.DataAccess
             }
         }
 
+
         public async Task<IEnumerable<T>> LoadData<T>(string sql, DynamicParameters parameters)
         {
             using(IDbConnection cnn = new SqlConnection(getConnectionString()))
@@ -56,6 +57,14 @@ namespace VNPOSTWebUILibrary.DataAccess
             using (IDbConnection cnn = new SqlConnection(getConnectionString()))
             {
                 return await cnn.ExecuteAsync(sql, parameters);
+            }
+        }
+
+        public async Task<IEnumerable<T>> ExecStoredProcedure<T>(string storedProcedureName, DynamicParameters param)
+        {
+            using (IDbConnection cnn = new SqlConnection(getConnectionString()))
+            {
+                return await cnn.QueryAsync<T>(storedProcedureName, param, commandType: CommandType.StoredProcedure);
             }
         }
     }

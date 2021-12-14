@@ -1,0 +1,19 @@
+﻿body {
+}
+
+#outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+#button-container a {
+    margin: 20px 0 20px 0;
+}

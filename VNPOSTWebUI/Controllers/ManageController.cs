@@ -38,6 +38,7 @@ namespace VNPOSTWebUI.Controllers
             return View();
         }
 
+        [Authorize(Roles = "NewsAdd")]
         public async Task<IActionResult> AddNews()
         {
             var newsGroup = await _newsProcessor.LoadNewsGroupAsync();
@@ -135,6 +136,8 @@ namespace VNPOSTWebUI.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize(Roles = "NewsEdit")]
         public async Task<IActionResult> EditNews(string id)
         {
             var newsGroup = await _newsProcessor.LoadNewsGroupAsync();
@@ -193,21 +196,12 @@ namespace VNPOSTWebUI.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize(Roles = "NewsDelete")]
         public async Task<IActionResult> DeleteNews(string id)
         {
             await _newsProcessor.DeleteNews(Int32.Parse(id));
             return RedirectToAction("NewsIndex", "Home");
-        }
-
-        public IActionResult test()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult test(VNPOSTWebUI.Models.News news)
-        {
-            
-            return View();
         }
     }
 }

@@ -76,5 +76,11 @@ namespace VNPOSTWebUI.Controllers
             await _newsProcessor.UpdateNews(tempNews);
             return View(tempNews);
         }
+
+        [AllowAnonymous]
+        public IActionResult test()
+        {
+            return View();
+        }
     }
 }

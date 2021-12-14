@@ -1,0 +1,47 @@
+﻿body {
+}
+
+#login-outer {
+    height: 317px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 232px;
+    width: 321px;
+    background-color: #fffad5;
+    color: #3e4d5c;
+    border: 1px solid #D2CB95;
+}
+
+#login-form button:nth-child(2n+1) { /*Login Button*/
+    border-color: #0D569E;
+    color: #ffffff;
+    font-size: 13px;
+    text-align: center;
+    background-image: linear-gradient(to bottom,#348de9,#2170cd);
+    margin-right: 3px;
+}
+
+    #login-form button:nth-child(2n+1):hover {
+        background-image: linear-gradient(to bottom, #6cb6f3, #4387d2);
+    }
+
+#login-form button:nth-child(2n) { /*Cancel Button*/
+    background-image: linear-gradient(to bottom, #ffffff, #c2c2c2);
+    border: 1px solid #c2c2c2;
+    font-size: 13px;
+}
+
+    #login-form button:nth-child(2n):hover {
+        background-image: linear-gradient(to bottom, #fefefe, #e8e8e8);
+    }
+
+#password-form {
+    margin-bottom: 10px;
+}

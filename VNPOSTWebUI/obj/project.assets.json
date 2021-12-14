@@ -2298,6 +2298,7 @@
           "Microsoft.Extensions.Configuration.FileExtensions": "5.0.0",
           "Microsoft.Extensions.Configuration.Json": "5.0.0",
           "Newtonsoft.Json": "13.0.1",
+          "System.ComponentModel.Annotations": "5.0.0",
           "System.Data.SqlClient": "4.8.3"
         },
         "compile": {

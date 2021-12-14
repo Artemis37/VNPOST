@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Category Unit View";
+}
+
+@section myCss {
+    <link href="~/lib/node_modules/tabulator-tables/dist/css/tabulator_semanticui.min.css" rel="stylesheet">
+    <link href="~/css/Unit/ListCategoryUnit.css" rel="stylesheet" />
+}
+
+@section myJs {
+    <script src="~/lib/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script type="text/javascript" src="~/lib/node_modules/tabulator-tables/dist/js/tabulator.js"></script>
+    <script src="~/js/Unit/ListCategoryUnit.js"></script>
+}
+
+<div id="outer" class="container-fluid">
+    <div id="inner">
+        <div id="upper">
+            <div id="upper-left" class="col-6">
+                <div id="upper-left-inner">
+                    <div class="form-group">
+                        <label for="category-unit-id">Mã loại đơn vị</label>
+                        <input id="category-unit-id" type="text" class="form-control-sm" />
+                    </div>
+                    <div class="form-group">
+                        <label for="category-unit-name">Tên loại đơn vị</label>
+                        <input id="category-unit-name" type="text" class="form-control-sm" />
+                    </div>
+                </div>
+            </div>
+            <div id="upper-right" class="col-6">
+                <fieldset id="status-container">
+                    <legend>Trạng thái</legend>
+                    <div id="status">
+                        <div class="form-check">
+                            <label for="all" class="form-check-label">Tất cả</label>
+                            <input id="all" type="radio" name="status" value="false" class="form-check-input" checked />
+                        </div>
+                        <div class="form-check">
+                            <label for="valid" class="form-check-label">Có hiệu lực</label>
+                            <input id="valid" type="radio" name="status" value="true" class="form-check-input" />
+                        </div>
+                        <div class="form-check">
+                            <label for="expire" class="form-check-label">Hết hiệu lực</label>
+                            <input id="expire" type="radio" name="status" value="false" class="form-check-input" />
+                        </div>
+                    </div>
+                </fieldset>
+                <div id="upper-right-button" class="">
+                    @*<a href="#" class="btn btn-primary">Tìm kiếm</a>*@
+                    <a href="@Url.Action("CategoryUnitAdd","Unit")" class="btn btn-success">Thêm mới</a>
+                    <a href="@Url.Action("Index","Unit")" class="btn btn-secondary">Quay lại</a>
+                    @*<a href="#" class="btn btn-danger">Xóa</a>*@
+                </div>
+            </div>
+        </div>
+        <div id="lower" class="container-fluid">
+            <div>
+                <span id="record">Tổng số bản ghi: #0</span>
+            </div>
+            <div id="display-container"></div>
+        </div>
+    </div>
+</div>

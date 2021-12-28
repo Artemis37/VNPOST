@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Phân quyền chức năng cho nhóm";
+}
+
+@section myJs {
+    <script src="~/lib/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="~/lib/node_modules/tabulator-tables/dist/js/tabulator.min.js"></script>
+    <script src="~/js/ManageRoleGroup.js"></script>
+}
+
+@section myCss {
+    <link href="~/lib/node_modules/tabulator-tables/dist/css/tabulator_semanticui.min.css" rel="stylesheet" />
+    <link href="~/css/ManageRoleGroup.css" rel="stylesheet" />
+}
+
+<div id="outer" class="container-fluid">
+    <div id="inner">
+        <div id="upper">
+            <div id="row1">
+                <div class="form-group">
+                    <label for="users-group-name">Tên nhóm</label>
+                    <input id="users-group-name" type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label id="application-range">Phạm vi ứng dụng: </label>
+                    <select disabled class="form-control">
+                        <option>Hệ thống quản trị tập trung</option>
+                    </select>
+                </div>
+            </div>
+            <div id="row2">
+                <a href="@Url.Action("AddRoleGroup")" class="btn btn-success">Thêm mới</a>
+            </div>
+        </div>
+        <div id="lower">
+            <span id="record-number">Tổng số bản ghi #0</span>
+            <div id="display-container"></div>
+        </div>
+    </div>
+</div>

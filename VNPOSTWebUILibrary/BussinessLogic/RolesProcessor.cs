@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VNPOSTWebUILibrary.DataAccess;
 using VNPOSTWebUILibrary.Model;
+using VNPOSTWebUILibrary.Model.DataSendToClient;
 
 namespace VNPOSTWebUILibrary.BussinessLogic
 {
@@ -67,9 +68,45 @@ namespace VNPOSTWebUILibrary.BussinessLogic
             return tempRoles;
         }
 
-        //public async Task SaveRelativeRoles(Roles roles)
-        //{
+        public async Task<IEnumerable<RolesForList>> loadRoles()
+        {
+            string sql = "select Id, [Name] from AspNetRoles";
 
-        //}
+            return await _sqlRepo.LoadData<RolesForList>(sql);
+        }
+
+        public async Task<AllClaim> loadClaim(string id)
+        {
+            //Returned Model
+            AllClaim result = new AllClaim(); 
+
+            string sql = "select ClaimValue from AspNetRoleClaims where RoleId = @id";
+            var param = new DynamicParameters();
+            param.Add("@id", id, DbType.String);
+            var allClaimOfId = await _sqlRepo.LoadData<string>(sql, param);
+            foreach (var item in allClaimOfId)
+            {
+                //Application
+                if(item == "ManageApplication.Read") result.ManageApplicationRead = true;
+                if(item == "ManageApplication.Update") result.ManageApplicationUpdate = true;
+                if(item == "ManageApplication.User.Add") result.ManageApplicationUserAdd = true;
+                if(item == "ManageApplication.User.Update") result.ManageApplicationUserUpdate = true;
+
+                //UserGroup
+                if(item == "ManageUserGroup.Read") result.ManageUserGroupRead = true;
+                if(item == "ManageUserGroup.Add") result.ManageUserGroupAdd = true;
+                if(item == "ManageUserGroup.Update") result.ManageUserGroupUpdate = true;
+                if(item == "ManageUserGroup.Delete") result.ManageUserGroupDelete = true;
+                if(item == "ManageUserGroup.Roles.Add") result.ManageUserGroupRolesAdd = true;
+
+                //User
+                if(item == "ManageUser.Read") result.ManageUserRead = true;
+                if(item == "ManageUser.Add") result.ManageUserAdd = true;
+                if(item == "ManageUser.Update") result.ManageUserUpdate = true;
+                if(item == "ManageUser.UpdateUserGroup") result.ManageUserUpdateUserGroup = true;
+            }
+
+            return result;
+        }
     }
 }

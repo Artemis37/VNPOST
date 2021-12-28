@@ -7,10 +7,13 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using VNPOSTWebUI.Models;
 using VNPOSTWebUILibrary.BussinessLogic;
+using VNPOSTWebUILibrary.Model;
+using VNPOSTWebUILibrary.Model.DataSendToClient;
 
 namespace VNPOSTWebUI.Controllers
 {
@@ -263,9 +266,120 @@ namespace VNPOSTWebUI.Controllers
             return View(roles);
         }
 
+        [HttpGet]
+        public IActionResult ManageRoleGroup()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult AddRoleGroup()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRoleGroup(RolesForList roles)
+        {
+            if (!await _roleManager.RoleExistsAsync(roles.Name))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roles.Name));
+                Response.Cookies.Append("resultAddRoleGroup", "True");
+            }else
+            {
+                Response.Cookies.Append("resultAddRoleGroup", "False");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewRoleGroup(string id)
+        {
+            ViewBag.Action = "View";
+            var temp = await _roleManager.FindByIdAsync(id);
+            return View("AddRoleGroup", new RolesForList() { Id=id, Name=temp.Name });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateRoleGroup(string id)
+        {
+            ViewBag.Action = "/Login/UpdateRoleGroup";
+            var temp = await _roleManager.FindByIdAsync(id);
+            return View("AddRoleGroup", new RolesForList() { Id = id, Name = temp.Name });
+        }
+
+        [HttpPost]
+        public IActionResult UpdateRoleGroup(VNPOSTWebUILibrary.Model.DataSendToClient.RolesForList roles)
+        {
+            return null;
+        }
+
+        [HttpPost]
+        public async Task<bool> DeleteRoleGroup([FromHeader]string id)
+        {
+            var result = await _roleManager.DeleteAsync(await _roleManager.FindByIdAsync(id));
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AppointRole(string id)
+        {
+            var result = await _rolesProcessor.loadClaim(id);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AppointRole([FromBody] AllClaim allclaims)
+        {
+            
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Deny()
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> loadRoles()
+        {
+            return Json(await _rolesProcessor.loadRoles());
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> test()
+        {
+            //await _roleManager.CreateAsync(new IdentityRole("ManageApplication"));
+            //await _roleManager.CreateAsync(new IdentityRole("ManageUserGroup"));
+            //await _roleManager.CreateAsync(new IdentityRole("ManageUser"));
+
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageApplication"), new Claim(ClaimTypes.Role, "ManageApplication.Read"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageApplication"), new Claim(ClaimTypes.Role, "ManageApplication.Update"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageApplication"), new Claim(ClaimTypes.Role, "ManageApplication.User.Add"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageApplication"), new Claim(ClaimTypes.Role,"ManageApplication.User.Update"));
+
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUserGroup"), new Claim(ClaimTypes.Role, "ManageUserGroup.Read"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUserGroup"), new Claim(ClaimTypes.Role, "ManageUserGroup.Detail"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUserGroup"), new Claim(ClaimTypes.Role, "ManageUserGroup.Add"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUserGroup"), new Claim(ClaimTypes.Role, "ManageUserGroup.Update"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUserGroup"), new Claim(ClaimTypes.Role, "ManageUserGroup.Delete"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUserGroup"), new Claim(ClaimTypes.Role, "ManageUserGroup.Roles.Add"));
+
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUser"), new Claim(ClaimTypes.Role, "ManageUser.Read"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUser"), new Claim(ClaimTypes.Role, "ManageUser.Detail"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUser"), new Claim(ClaimTypes.Role, "ManageUser.Add"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUser"), new Claim(ClaimTypes.Role, "ManageUser.Update"));
+            //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUser"), new Claim(ClaimTypes.Role, "ManageUser.UpdateUserGroup"));
+
+            await _userManager.AddToRoleAsync(await _userManager.FindByIdAsync("2f8a6c97-bfbb-4af4-bffc-6e30ba697f9c"), "ManageApplication");
+
+            return View();
+        }
+
     }
 }

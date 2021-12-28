@@ -1,0 +1,121 @@
+﻿
+
+@{
+    ViewBag.Title = "Phân quyền cho nhóm người dùng";
+}
+
+@section myCss {
+    <link href="~/css/hierarchical-checkboxes.css" rel="stylesheet" />
+    <link href="~/css/AppointRole.css" rel="stylesheet" />
+}
+
+@section myJs {
+    <script src="~/js/hierarchical-checkboxes.js"></script>
+    <script src="~/js/AppointRole.js"></script>
+}
+
+<div id="outer" class="container-fluid">
+    <div id="inner">
+        <div class="hierarchy-checkboxes" rel="example">
+            <input class="hierarchy-root-checkbox" type="checkbox">
+            <label class="hierarchy-root-label">MCAS</label>
+            <div class="hierarchy-root-child hierarchy-node">
+                <div class="hierarchy-node">
+                    <input class="hierarchy-checkbox" type="checkbox">
+                    <label class="hierarchy-label">Danh mục hệ thống</label>
+                    <div class="hierarchy-node">
+                        <input class="hierarchy-checkbox" type="checkbox"> @*Parent 1*@
+                        <label class="hierarchy-label">1. Quản lý ứng dụng</label>
+                        <div class="hierarchy-node leaf">
+                            @*Child 1.1*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">1.1 Tìm kiếm</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 1.2*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">1.2 Cập nhật thông tin ứng dụng</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 1.3*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">1.3 Thêm người dùng</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 1.4*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">1.4 Cập nhật người dùng</label>
+                        </div>
+                    </div>
+                    <div class="hierarchy-node">
+                        <input class="hierarchy-checkbox" type="checkbox"> @*Parent 2*@
+                        <label class="hierarchy-label">2. Quản trị nhóm người dùng</label>
+                        <div class="hierarchy-node leaf">
+                            @*Child 2.1*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">2.1 Thêm</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 2.2*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">2.2 Xóa</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 2.3*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">2.3 Sửa</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 2.4*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">2.4 Xem chi tiết</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 2.5*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">2.5 Phân quyền chức năng cho nhóm</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 2.6*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">2.6 Tìm kiếm</label>
+                        </div>
+                    </div>
+                    <div class="hierarchy-node">
+                        <input class="hierarchy-checkbox" type="checkbox"> @*Parent 3*@
+                        <label class="hierarchy-label">3. Quản trị người dùng</label>
+                        <div class="hierarchy-node leaf">
+                            @*Child 3.1*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">3.1 Tìm kiếm</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 3.2*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">3.2 Thêm mới</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 3.3*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">3.3 Chi tiết</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 3.4*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">3.4 Thiết lập nhóm</label>
+                        </div>
+                        <div class="hierarchy-node leaf">
+                            @*Child 3.5*@
+                            <input class="hierarchy-checkbox" type="checkbox">
+                            <label class="hierarchy-label">3.5 Sửa</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="button-container">
+        <input type="button" class="btn btn-primary" value="Lưu" onclick="submitForm()"/>
+        <a href="@Url.Action("ManageRoleGroup","Login")" class="btn btn-secondary">Quay lại</a>
+    </div>
+</div>

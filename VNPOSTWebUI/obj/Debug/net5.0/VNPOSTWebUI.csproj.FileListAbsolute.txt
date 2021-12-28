@@ -202,11 +202,13 @@ C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Home
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Manage\AddNewsGroup.cshtml.g.cs
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Login\ManageRole.cshtml.g.cs
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Login\Deny.cshtml.g.cs
-C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Home\test.cshtml.g.cs
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Unit\Index.cshtml.g.cs
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Unit\ListCategoryUnit.cshtml.g.cs
-C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Unit\test.cshtml.g.cs
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Unit\ListUnit.cshtml.g.cs
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Unit\UnitDetail.cshtml.g.cs
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Unit\CategoryUnitAdd.cshtml.g.cs
 C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Unit\UnitAdd.cshtml.g.cs
+C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Login\test.cshtml.g.cs
+C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Login\ManageRoleGroup.cshtml.g.cs
+C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Login\AddRoleGroup.cshtml.g.cs
+C:\Users\NoMin\source\repos\VNPOST\VNPOSTWebUI\obj\Debug\net5.0\Razor\Views\Login\AppointRole.cshtml.g.cs

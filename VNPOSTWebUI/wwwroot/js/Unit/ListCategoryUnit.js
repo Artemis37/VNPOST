@@ -13,7 +13,7 @@ const tempData = [
     }
 ];
 
-var actions = function (cell, formatterParams) {
+var actions = (cell, formatterParams) => {
     const id = cell.getData().id;
     return `<a href='/Unit/CategoryDetail/${id}'><i class='fas fa-info-circle'></i></a>` +
         `<a href='/Unit/CategoryEdit/${id}'><i class='far fa-edit'></i></a>` +

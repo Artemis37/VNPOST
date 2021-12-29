@@ -75,6 +75,15 @@ namespace VNPOSTWebUILibrary.BussinessLogic
             return await _sqlRepo.LoadData<RolesForList>(sql);
         }
 
+        public async Task<IEnumerable<RolesForList>> loadAppoinedRolesById(string id)
+        {
+            string sql = "select b.Id, b.Name from AspNetUserRoles as a inner join AspNetRoles as b on a.RoleId = b.Id where UserId = @Id";
+            var param = new DynamicParameters();
+            param.Add("@Id", id, DbType.String);
+
+            return await _sqlRepo.LoadData<RolesForList>(sql, param);
+        }
+
         public async Task<AllClaim> loadClaim(string id)
         {
             //Returned Model
@@ -98,15 +107,24 @@ namespace VNPOSTWebUILibrary.BussinessLogic
                 if(item == "ManageUserGroup.Update") result.ManageUserGroupUpdate = true;
                 if(item == "ManageUserGroup.Delete") result.ManageUserGroupDelete = true;
                 if(item == "ManageUserGroup.Roles.Add") result.ManageUserGroupRolesAdd = true;
+                if(item == "ManageUserGroup.Detail") result.ManageUserGroupRolesAdd = true;
 
                 //User
                 if(item == "ManageUser.Read") result.ManageUserRead = true;
+                if(item == "ManageUser.Detail") result.ManageUserRead = true;
                 if(item == "ManageUser.Add") result.ManageUserAdd = true;
                 if(item == "ManageUser.Update") result.ManageUserUpdate = true;
                 if(item == "ManageUser.UpdateUserGroup") result.ManageUserUpdateUserGroup = true;
             }
 
             return result;
+        }
+
+        public async Task removeRoleClaimById(string roleId)
+        {
+            string sql = "truncate table AspNetRoleClaims";
+
+            await _sqlRepo.SaveData(sql);
         }
     }
 }

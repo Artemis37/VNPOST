@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -60,7 +61,7 @@ namespace VNPOSTWebUI.Controllers
                 return View();
             }
 
-            var result = await _signInManager.PasswordSignInAsync(login.Username, login.Password, false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(login.Username, login.Password, isPersistent: true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in.");
@@ -83,6 +84,7 @@ namespace VNPOSTWebUI.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -90,7 +92,8 @@ namespace VNPOSTWebUI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        [Authorize("ManageUserRead")]
         public IActionResult ListAccount()
         {
             var identityUser = _userManager.Users.ToList();
@@ -98,7 +101,7 @@ namespace VNPOSTWebUI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Policy = "ManageUserAdd")]
         public IActionResult Register()
         {
             return View();
@@ -121,7 +124,7 @@ namespace VNPOSTWebUI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        [Authorize("ManageUserUpdate")]
         public IActionResult Edit(string id)
         {
             var user = _userManager.FindByIdAsync(id).Result;
@@ -156,7 +159,6 @@ namespace VNPOSTWebUI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Disable(string Id)
         {
             var tempUser = await _userManager.FindByIdAsync(Id);
@@ -169,7 +171,6 @@ namespace VNPOSTWebUI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Enable(string Id)
         {
             var tempUser = await _userManager.FindByIdAsync(Id);
@@ -182,7 +183,7 @@ namespace VNPOSTWebUI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        [Authorize("ManageUserDetail")]
         public async Task<IActionResult> Details(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -191,7 +192,6 @@ namespace VNPOSTWebUI.Controllers
         }
 
         [HttpGet] 
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> ManageRole(string id)
         {
             var result = await _rolesProcessor.LoadRelativeRoles(id);
@@ -264,15 +264,17 @@ namespace VNPOSTWebUI.Controllers
             await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
 
             return View(roles);
-        }
+        } //deprecated
 
         [HttpGet]
+        [Authorize("ManageUserGroupRead")]
         public IActionResult ManageRoleGroup()
         {
             return View();
         }
 
         [HttpGet]
+        [Authorize("ManageUserGroupAdd")]
         public IActionResult AddRoleGroup()
         {
             return View();
@@ -293,6 +295,7 @@ namespace VNPOSTWebUI.Controllers
         }
 
         [HttpGet]
+        [Authorize("ManageUserGroupDetail")]
         public async Task<IActionResult> ViewRoleGroup(string id)
         {
             ViewBag.Action = "View";
@@ -301,6 +304,7 @@ namespace VNPOSTWebUI.Controllers
         }
 
         [HttpGet]
+        [Authorize("ManageUserGroupUpdate")]
         public async Task<IActionResult> UpdateRoleGroup(string id)
         {
             ViewBag.Action = "/Login/UpdateRoleGroup";
@@ -309,15 +313,26 @@ namespace VNPOSTWebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateRoleGroup(VNPOSTWebUILibrary.Model.DataSendToClient.RolesForList roles)
+        public async Task<IActionResult> UpdateRoleGroup(VNPOSTWebUILibrary.Model.DataSendToClient.RolesForList roles)
         {
-            return null;
+            var tempRole = await _roleManager.FindByIdAsync(roles.Id);
+            tempRole.Name = roles.Name;
+            var result = await _roleManager.UpdateAsync(tempRole);
+            if (result.Succeeded)
+            {
+                Response.Cookies.Append("updateRoleGroupResult","True");
+            }else
+            {
+                Response.Cookies.Append("updateRoleGroupResult","False");
+            }
+            return View("AddRoleGroup", new RolesForList() { Id = tempRole.Id, Name = tempRole.Name });
         }
 
         [HttpPost]
-        public async Task<bool> DeleteRoleGroup([FromHeader]string id)
+        [Authorize("ManageUserGroupDelete")]
+        public async Task<bool> DeleteRoleGroup([FromHeader]string RoleId)
         {
-            var result = await _roleManager.DeleteAsync(await _roleManager.FindByIdAsync(id));
+            var result = await _roleManager.DeleteAsync(await _roleManager.FindByIdAsync(RoleId));
             if (result.Succeeded)
             {
                 return true;
@@ -325,17 +340,90 @@ namespace VNPOSTWebUI.Controllers
             return false;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AppointRole(string id)
+        [HttpPost]
+        public async Task<IActionResult> LoadClaims([FromHeader]string RoleId)
         {
-            var result = await _rolesProcessor.loadClaim(id);
+            var result = await _rolesProcessor.loadClaim(RoleId);
+            return Json(result);
+        }
+
+        [HttpGet]
+        public IActionResult AppointRole()
+        {
             return View();
         }
 
         [HttpPost]
-        public IActionResult AppointRole([FromBody] AllClaim allclaims)
+        public async Task<IActionResult> AppointRole([FromBody] AllClaim allclaims, [FromHeader] string RoleId)
         {
-            
+            await _rolesProcessor.removeRoleClaimById(RoleId);
+            //Application
+            if (allclaims.ManageApplicationRead)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageApplication.Read"));
+            }
+            if (allclaims.ManageApplicationUpdate)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageApplication.Update"));
+            }
+            if (allclaims.ManageApplicationUserAdd)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageApplication.User.Add"));
+            }
+            if (allclaims.ManageApplicationUserUpdate)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageApplication.User.Update"));
+            }
+
+            //User Group
+            if (allclaims.ManageUserGroupRead)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUserGroup.Read"));
+            }
+            if (allclaims.ManageUserGroupAdd)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUserGroup.Add"));
+            }
+            if (allclaims.ManageUserGroupUpdate)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUserGroup.Update"));
+            }
+            if (allclaims.ManageUserGroupDelete)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUserGroup.Delete"));
+            }
+            if (allclaims.ManageUserGroupRolesAdd)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUserGroup.Roles.Add"));
+            }
+            if (allclaims.ManageUserGroupDetail)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUserGroup.Detail"));
+            }
+
+            //User
+            if (allclaims.ManageUserRead)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUserRead.Read"));
+            }
+            if (allclaims.ManageUserDetail)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUser.Detail"));
+            }
+            if (allclaims.ManageUserAdd)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUser.Add"));
+            }
+            if (allclaims.ManageUserUpdate)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUser.Update"));
+            }
+            if (allclaims.ManageUserUpdateUserGroup)
+            {
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUser.UpdateUserGroup"));
+            }
+            Response.Cookies.Append("changeRoleGroupResult","True");
+            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
             return View();
         }
 
@@ -349,6 +437,40 @@ namespace VNPOSTWebUI.Controllers
         public async Task<IActionResult> loadRoles()
         {
             return Json(await _rolesProcessor.loadRoles());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> loadAppointedRoles([FromHeader]string id)
+        {
+            return Json(await _rolesProcessor.loadAppoinedRolesById(id));
+        }
+
+        [HttpPost]
+        [Authorize("ManageUserUpdateUserGroup")]
+        public async Task<bool> updateRoleForUser([FromBody]AllRolesOfUser allRoles)
+        {
+            var targetedUser = await _userManager.FindByIdAsync(allRoles.Id);
+            //Add additional roles
+            foreach (var item in allRoles.AssignedRoles)
+            {
+                if(!await _userManager.IsInRoleAsync(targetedUser, item.Name))
+                {
+                    await _userManager.AddToRoleAsync(targetedUser, item.Name);
+                }
+            }
+
+            //Remove redundant roles
+            foreach (var item in allRoles.AvailableRoles)
+            {
+                if(await _userManager.IsInRoleAsync(targetedUser, item.Name))
+                {
+                    await _userManager.RemoveFromRoleAsync(targetedUser, item.Name);
+                }
+            }
+
+            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
+
+            return true;
         }
 
         [AllowAnonymous]
@@ -376,7 +498,9 @@ namespace VNPOSTWebUI.Controllers
             //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUser"), new Claim(ClaimTypes.Role, "ManageUser.Update"));
             //await _roleManager.AddClaimAsync(await _roleManager.FindByNameAsync("ManageUser"), new Claim(ClaimTypes.Role, "ManageUser.UpdateUserGroup"));
 
-            await _userManager.AddToRoleAsync(await _userManager.FindByIdAsync("2f8a6c97-bfbb-4af4-bffc-6e30ba697f9c"), "ManageApplication");
+            //await _userManager.AddToRoleAsync(await _userManager.FindByIdAsync("2f8a6c97-bfbb-4af4-bffc-6e30ba697f9c"), "ManageApplication");
+
+            //await _userManager.AddToRoleAsync(await _userManager.GetUserAsync(User), "Cirila");
 
             return View();
         }

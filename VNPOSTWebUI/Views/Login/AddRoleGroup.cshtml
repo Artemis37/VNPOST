@@ -20,6 +20,7 @@
 <div id="outer">
     <div id="inner">
         <form action="@action" method="post">
+            <input asp-for="Id" style="display:none"/>
             <div class="form-group">
                 <label asp-for="Name">Tên nhóm</label>
                 @if (ViewBag.Action == "View")

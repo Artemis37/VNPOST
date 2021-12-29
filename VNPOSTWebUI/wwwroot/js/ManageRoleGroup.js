@@ -57,10 +57,11 @@ const deleteCategoryUnit = (id) => {
     }).then((result) => {
         if (result.isConfirmed) {
             fetch('/login/DeleteRoleGroup', {
+                mode: 'cors',
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    'Id': id
+                    'RoleId': id
                 }
             })
                 .then(response => response.json())

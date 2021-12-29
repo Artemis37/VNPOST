@@ -1,18 +1,22 @@
 ﻿'use strict'
 
 window.onload = () => {
-    const addResult = document.cookie.split('=')[1] === 'True';
+    const result = document.cookie.split('=')[1] === 'True';
     const name = document.cookie.split('=')[0];
-    if (addResult) {
+    if (result && name === 'resultAddRoleGroup') {
         Swal.fire({
             icon: 'success',
             title: 'Thêm thành công'
         })
-    } else if (!addResult && document.cookie !== '') {
+    } else if (result && name === 'updateRoleGroupResult') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Sửa thành công'
+        });
+    } else if (!result && document.cookie !== '') {
         Swal.fire({
             icon: 'error',
-            title: 'Thêm thất bại',
-            text: 'Đã tồn tại nhóm'
+            title: 'Lỗi'
         })
     }
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;

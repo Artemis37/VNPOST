@@ -10,54 +10,23 @@
 }
 
 @section myJs {
+    <script src="~/lib/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <script src="~/js/ManageRole.js"></script>
 }
 
-<div id="outer" class="container-fluid">
-    <form action="#" method="post">
-        <div id="newsRole" class="">
-            <h1>Quyền quản lý báo điện tử</h1>
-            <ul>
-                <li class="form-group" style="display: none;">
-                    <input class="form-control" type="text" asp-for="userid" readonly/>
-                </li>
-                <li class="form-check">
-                    <input class="form-check-input" asp-for="newsAdd" value="true" />
-                    <label class="form-check-label" asp-for="newsAdd">Viết báo</label>
-                </li>
-                <li class="form-check">
-                    <input class="form-check-input" asp-for="newsEdit" value="true" />
-                    <label class="form-check-label" asp-for="newsEdit">Sửa bài báo cũ</label>
-                </li>
-                <li class="form-check">
-                    <input class="form-check-input" asp-for="newsDelete" value="true" />
-                    <label class="form-check-label" asp-for="newsDelete">Xóa bài báo cũ</label>
-                </li>
-            </ul>
+<div id="outer">
+    <div id="inner">
+        <div id="function-container">
+            <div id="available-role" class="list-group">
+                <label>Danh sách nhóm quyền chưa được gán</label>
+            </div>
+            <div id="chosen-role" class="list-group">
+                <label>Danh sách nhóm quyền đã được gán </label>
+            </div>
         </div>
-        <div id="unitRole" class="">
-            <h1>Quyền quản lý đơn vị</h1>
-            <ul>
-                <li class="form-check">
-                    <input class="form-check-input" asp-for="unitRead" value="true" />
-                    <label asp-for="unitRead">Xem loại đơn vị</label>
-                </li>
-                <li class="form-check">
-                    <input class="form-check-input" asp-for="unitAdd" value="true" />
-                    <label asp-for="unitAdd">Thêm mới loại đơn vị</label>
-                </li>
-                <li class="form-check">
-                    <input class="form-check-input" asp-for="unitEdit" value="true" />
-                    <label asp-for="unitEdit">Sửa loại đơn vị</label>
-                </li>
-                <li class="form-check">
-                    <input class="form-check-input" asp-for="unitDelete" value="true" />
-                    <label asp-for="unitDelete">Xóa loại đơn vị</label>
-                </li>
-            </ul>
+        <div id="button-container">
+            <button class="btn btn-primary" onclick="getRoleList()">Save</button>
+            <a href="@Url.Action("ListAccount","login")" class="btn btn-secondary">Cancel</a>
         </div>
-    </form>
-    <div id="submit-button" class="container-fluid">
-        <input id="submit-form" type="button" value="Save" class="btn btn-primary" />
     </div>
 </div>

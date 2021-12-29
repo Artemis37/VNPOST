@@ -10,6 +10,7 @@
 }
 
 @section myJs {
+    <script src="~/lib/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <script src="~/js/hierarchical-checkboxes.js"></script>
     <script src="~/js/AppointRole.js"></script>
 }
@@ -115,7 +116,7 @@
         </div>
     </div>
     <div id="button-container">
-        <input type="button" class="btn btn-primary" value="Lưu" onclick="submitForm()"/>
+        <input type="button" class="btn btn-primary" value="Lưu" onclick="submitForm()" />
         <a href="@Url.Action("ManageRoleGroup","Login")" class="btn btn-secondary">Quay lại</a>
     </div>
 </div>

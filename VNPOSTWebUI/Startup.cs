@@ -26,9 +26,21 @@ namespace VNPOSTWebUI
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin();
+                                      builder.AllowAnyHeader();
+                                  });
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -72,6 +84,76 @@ namespace VNPOSTWebUI
                 options.AccessDeniedPath = "/Login/Deny";
                 options.SlidingExpiration = true;
             });
+
+            services.AddAuthorization(options => 
+            {
+                //Application
+                options.AddPolicy("ApplicationRead", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageApplication.Read");
+                });
+                options.AddPolicy("ApplicationUpdate", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageApplication.Update");
+                });
+                options.AddPolicy("ApplicationUserAdd", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageApplication.User.Add");
+                });
+                options.AddPolicy("ApplicationUserUpdate", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageApplication.User.Update");
+                });
+
+                //User Group
+                options.AddPolicy("ManageUserGroupRead", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUserGroup.Read");
+                });
+                options.AddPolicy("ManageUserGroupAdd", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUserGroup.Add");
+                });
+                options.AddPolicy("ManageUserGroupUpdate", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUserGroup.Update");
+                });
+                options.AddPolicy("ManageUserGroupDelete", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUserGroup.Delete");
+                });
+                options.AddPolicy("ManageUserGroupRolesAdd", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUserGroup.Roles.Add");
+                });
+                options.AddPolicy("ManageUserGroupDetail", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUserGroup.Detail");
+                });
+
+                //User
+                options.AddPolicy("ManageUserRead", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUser.Read");
+                });
+                options.AddPolicy("ManageUserDetail", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUser.Detail");
+                });
+                options.AddPolicy("ManageUserAdd", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUser.Add");
+                });
+                options.AddPolicy("ManageUserUpdate", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUser.Update");
+                });
+                options.AddPolicy("ManageUserUpdateUserGroup", policy =>
+                {
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "ManageUserUpdate.User.Group");
+                });
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +174,7 @@ namespace VNPOSTWebUI
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthentication();
             app.UseAuthorization();

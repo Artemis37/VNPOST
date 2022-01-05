@@ -267,7 +267,7 @@ namespace VNPOSTWebUI.Controllers
         } //deprecated
 
         [HttpGet]
-        //[Authorize("ManageUserGroupRead")]
+        [Authorize("ManageUserGroupRead")]
         public IActionResult ManageRoleGroup()
         {
             return View();

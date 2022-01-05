@@ -75,22 +75,22 @@ window.onload = () => {
             }
 
             //User Group
-            if (data.manageUserGroupRead) {
+            if (data.manageUserGroupAdd) {
                 formData[7].checked = true;
             }
-            if (data.manageUserGroupAdd) {
+            if (data.manageUserGroupDelete) {
                 formData[8].checked = true;
             }
             if (data.manageUserGroupUpdate) {
                 formData[9].checked = true;
             }
-            if (data.manageUserGroupDelete) {
+            if (data.manageUserGroupDetail) {
                 formData[10].checked = true;
             }
             if (data.manageUserGroupRolesAdd) {
                 formData[11].checked = true;
             }
-            if (data.manageUserGroupDetail) {
+            if (data.manageUserGroupRead) {
                 formData[12].checked = true;
             }
 
@@ -98,16 +98,16 @@ window.onload = () => {
             if (data.manageUserRead) {
                 formData[14].checked = true;
             }
-            if (data.manageUserDetail) {
+            if (data.manageUserAdd) {
                 formData[15].checked = true;
             }
-            if (data.manageUserAdd) {
+            if (data.manageUserDetail) {
                 formData[16].checked = true;
             }
-            if (data.manageUserUpdate) {
+            if (data.manageUserUpdateUserGroup) {
                 formData[17].checked = true;
             }
-            if (data.manageUserUpdateUserGroup) {
+            if (data.manageUserUpdate) {
                 formData[18].checked = true;
             }
         })

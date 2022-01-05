@@ -107,11 +107,11 @@ namespace VNPOSTWebUILibrary.BussinessLogic
                 if(item == "ManageUserGroup.Update") result.ManageUserGroupUpdate = true;
                 if(item == "ManageUserGroup.Delete") result.ManageUserGroupDelete = true;
                 if(item == "ManageUserGroup.Roles.Add") result.ManageUserGroupRolesAdd = true;
-                if(item == "ManageUserGroup.Detail") result.ManageUserGroupRolesAdd = true;
+                if(item == "ManageUserGroup.Detail") result.ManageUserGroupDetail = true;
 
                 //User
                 if(item == "ManageUser.Read") result.ManageUserRead = true;
-                if(item == "ManageUser.Detail") result.ManageUserRead = true;
+                if(item == "ManageUser.Detail") result.ManageUserDetail = true;
                 if(item == "ManageUser.Add") result.ManageUserAdd = true;
                 if(item == "ManageUser.Update") result.ManageUserUpdate = true;
                 if(item == "ManageUser.UpdateUserGroup") result.ManageUserUpdateUserGroup = true;

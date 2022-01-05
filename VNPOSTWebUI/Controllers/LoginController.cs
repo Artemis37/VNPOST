@@ -267,7 +267,7 @@ namespace VNPOSTWebUI.Controllers
         } //deprecated
 
         [HttpGet]
-        [Authorize("ManageUserGroupRead")]
+        //[Authorize("ManageUserGroupRead")]
         public IActionResult ManageRoleGroup()
         {
             return View();
@@ -404,7 +404,7 @@ namespace VNPOSTWebUI.Controllers
             //User
             if (allclaims.ManageUserRead)
             {
-                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUserRead.Read"));
+                await _roleManager.AddClaimAsync(await _roleManager.FindByIdAsync(RoleId), new Claim(ClaimTypes.Role, "ManageUser.Read"));
             }
             if (allclaims.ManageUserDetail)
             {
